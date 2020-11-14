@@ -1,7 +1,19 @@
 import Koa from "koa"
 import cors from "@koa/cors"
+import bodyParser from 'koa-bodyparser'
+
+
+
 
 import router from "./router.js"
 import main from "./main.js"
 
-export default new Koa().use(cors()).use(router.routes()).use(router.allowedMethods()).use(main)
+const app = new Koa()
+
+app.use(cors())
+app.use(bodyParser())
+app.use(router.routes())
+app.use(router.allowedMethods())
+app.use(main)
+
+export default app
