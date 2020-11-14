@@ -7,13 +7,14 @@ import { hideBin } from 'yargs/helpers'
 
 
 // get the schema
-async function main(base, path) {
+async function main(base, path, evaluatedBody) {
     const baseURL = `${base}/.netlify/functions/server`
 
-    console.warn(`Fetching from: ${baseURL + path}`)
-
+    console.warn(`Fetching from: ${baseURL + path}` + evaluatedBody ? ` with body: '${evaluatedBody}'` : '')
     try {
-        const response = await axios.create({ baseURL }).get(path)
+        const server = axios.create({ baseURL })
+        console.log(evaluatedBody)
+        const response = evaluatedBody !== null ? await server.post(path, evaluatedBody) : await server.get(path)
         console.log(JSON.stringify(response.data, null, 2))
     } catch (error) {
         const { response } = error
@@ -24,16 +25,29 @@ async function main(base, path) {
 
 const {
     production,
+    body,
     _: [path]
 } = yargs(hideBin(process.argv))
-    .usage("Usage: $0 [options] <path>")
+    .usage("Usage: $0 [options] <path> --body { message:'Hello World!' }")
     .example("$0 --production /", "fetch scheme from netlify")
     .demandCommand(1)
     .boolean("p")
     .alias("p", "production")
     .describe("p", "Use production server")
+    .option('b', {
+        alias: 'body',
+        describe: 'js to send in body',
+        type: 'string'
+    })
     .help("h")
     .alias("h", "help").argv
+
+let evaluatedBody = null
+try {
+    if (body) evaluatedBody = JSON.parse(body)
+} catch (error) {
+    throw new Error(`Invalid Body: '${body}'`)
+}
 
 // get the endpoint the the schema we want
 if (!validator.isURL(path, { allow_protocol_relative_urls: true, require_host: false }))
@@ -44,4 +58,4 @@ const PROJECT_NAME = process.env.PROJECT_NAME
 if (PROJECT_NAME === undefined) throw new Error("PROJECT_NAME is undefined")
 const base = production ? `https://${PROJECT_NAME}.netlify.app` : process.env.URL
 
-main(base, path)
+main(base, path, evaluatedBody)
