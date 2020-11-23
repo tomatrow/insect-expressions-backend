@@ -9,10 +9,6 @@ export const method = "post"
 export async function callback(ctx, next) {
     await next()
 
-    // use an api key to not call this function too much
-    console.log(ctx.request.body, process.env.MERGE_KEY)
-    ctx.assert(process.env.MERGE_KEY === ctx.request.body.mergeKey, 401, "Need the merge key")
-
     const subscribersResponse = await mailerLite.get("/subscribers")
     const subscribers = subscribersResponse.data
 
