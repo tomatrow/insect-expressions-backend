@@ -1,6 +1,6 @@
 import MailerLite from "../../controllers/MailerLite.js"
 
-export const path = "/add"
+export const path = "/subscription/add"
 
 export const method = "post"
 
