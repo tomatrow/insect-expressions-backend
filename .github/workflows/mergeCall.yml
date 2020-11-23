@@ -1,4 +1,5 @@
 on:
+    workflow_dispatch:
     schedule:
         # once a day
         - cron:  '0 0 * * *'
