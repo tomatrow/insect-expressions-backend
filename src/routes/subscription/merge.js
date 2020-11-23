@@ -2,11 +2,17 @@ import MailerLite from "../../controllers/MailerLite.js"
 import Shopify from "../../controllers/Shopify.js"
 import { format } from "date-fns"
 
-export const path = "/subscription/merge"
+export const path = "/merge"
 
-export const method = "get"
+export const method = "post"
 
 export async function callback(ctx, next) {
+    await next()
+
+    // use an api key to not call this function too much
+    console.log(ctx.request.body, process.env.MERGE_KEY)
+    ctx.assert(process.env.MERGE_KEY === ctx.request.body.mergeKey, 401, "Need the merge key")
+
     const subscribersResponse = await mailerLite.get("/subscribers")
     const subscribers = subscribersResponse.data
 
@@ -52,5 +58,4 @@ export async function callback(ctx, next) {
     }
 
     ctx.status = 200
-    await next()
 }

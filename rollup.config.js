@@ -1,14 +1,10 @@
-import json from "@rollup/plugin-json"
-import resolve from "@rollup/plugin-node-resolve"
-import commonjs from "@rollup/plugin-commonjs"
+if (!process.env.SERVER_PATH) throw new Error("SERVER_PATH is needed")
 
 export default {
     input: "src/index.js",
     output: {
-        file: "functions/server-background/app.js",
-        format: "cjs",
-        exports: "auto"
+        file: `functions/${process.env.SERVER_PATH}/app.js`,
+        format: "cjs"
     },
-    external: ["@koa/cors", "@koa/router", "koa"],
-    plugins: [resolve(), commonjs(), json()]
+    external: ["@koa/cors", "@koa/router", "koa"]
 }

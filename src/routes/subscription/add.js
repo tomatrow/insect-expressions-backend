@@ -1,10 +1,11 @@
 import MailerLite from "../../controllers/MailerLite.js"
 
-export const path = "/subscription/add"
+export const path = "/add"
 
 export const method = "post"
 
 export async function callback(ctx, next) {
+    console.log("MADE IT")
     await next()
 
     // get the email out from the request

@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-
 import axios from "axios"
 import yargs from "yargs"
 import validator from "validator"
@@ -8,7 +7,7 @@ import { hideBin } from 'yargs/helpers'
 
 // get the schema
 async function main(base, path, evaluatedBody) {
-    const baseURL = `${base}/.netlify/functions/server`
+    const baseURL = `${base}/.netlify/functions/${process.env.SERVER_PATH}`
 
     console.warn(`Fetching from: ${baseURL + path}` + evaluatedBody ? ` with body: '${evaluatedBody}'` : '')
     try {

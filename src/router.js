@@ -1,17 +1,25 @@
 import Router from "@koa/router"
 
-import * as AddSubscription from "./routes/add.js"
-import * as MergeSubscription from "./routes/merge.js"
+import * as AddSubscription from "./routes/subscription/add.js"
+import * as MergeSubscription from "./routes/subscription/merge.js"
 
-const routes = [AddSubscription, MergeSubscription]
+const router = new Router({ prefix: `/.netlify/functions/${process.env.SERVER_PATH}` })
 
-const router = new Router({ prefix: "/.netlify/functions/server" })
+function add(path, routes, parent = router) {
+    const child = new Router()
 
-// add routes to router
-for (let route of routes)
-    if (['path', 'route', 'callback'].every(Object.hasOwnProperty))
-        // add a collection route
-        router[route.method](route.path, route.callback)
-    else throw new Error("Undefined route")
+    for (let route of routes) {
+        // check route is well defined
+        for (let key of ["path", "method", "callback"])
+            if (route[key] === undefined)
+                throw new Error(`Undefined route: ${route.path} ${route.method} at ${key}`)
+        // add it
+        child[route.method](route.path, route.callback)
+    }
+
+    parent.use(path, child.routes(), child.allowedMethods())
+}
+
+add("/subscription", [AddSubscription, MergeSubscription])
 
 export default router
