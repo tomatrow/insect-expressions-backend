@@ -9,4 +9,4 @@ jobs:
         name: Call the merge function
         runs-on: ubuntu-latest
         steps: 
-            - run: curl -X POST 'https://insect-expressions-backend.netlify.app/.netlify/functions/server-background/subscription/merge'
+            - run: curl -X GET 'https://insect-expressions-backend.netlify.app/.netlify/functions/server-background/subscription/merge'

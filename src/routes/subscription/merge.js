@@ -4,7 +4,7 @@ import { format } from "date-fns"
 
 export const path = "/merge"
 
-export const method = "post"
+export const method = "get"
 
 export async function callback(ctx, next) {
     await next()
