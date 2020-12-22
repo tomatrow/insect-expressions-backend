@@ -35,6 +35,7 @@
         "date-fns": "^2.16.1",
         "koa": "^2.13.0",
         "koa-bodyparser": "^4.3.0",
+        "mailerlite-api-v2-node": "^1.1.1",
         "shopify-api-node": "^3.5.2"
     }
 }

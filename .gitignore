@@ -1,7 +1,7 @@
 # Local Netlify folder
 .netlify
 
-functions/server-background/app.js
+functions/server/app.js
 node_modules
 .env
 .caching-prettier-cache

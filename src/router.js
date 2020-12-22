@@ -1,7 +1,9 @@
 import Router from "@koa/router"
 
 import * as AddSubscription from "./routes/subscription/add.js"
-import * as MergeSubscription from "./routes/subscription/merge.js"
+
+import * as ShopifyOrderCreate from "./routes/webhooks/shopify-order-create.js"
+import * as MailerliteSubscriberAddToCart from "./routes/webhooks/mailerlite-subscriber-add-to-group.js"
 
 const router = new Router({ prefix: `/.netlify/functions/${process.env.SERVER_PATH}` })
 
@@ -20,6 +22,7 @@ function add(path, routes, parent = router) {
     parent.use(path, child.routes(), child.allowedMethods())
 }
 
-add("/subscription", [AddSubscription, MergeSubscription])
+add("/subscription", [AddSubscription])
+add("/webhooks", [ShopifyOrderCreate, MailerliteSubscriberAddToCart])
 
 export default router

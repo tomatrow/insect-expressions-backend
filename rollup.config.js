@@ -4,7 +4,8 @@ export default {
     input: "src/index.js",
     output: {
         file: `functions/${process.env.SERVER_PATH}/app.js`,
-        format: "cjs"
+        format: "cjs",
+        exports: "default"
     },
-    external: ["@koa/cors", "@koa/router", "koa"]
+    external: ["@koa/cors", "@koa/router", "koa", "koa-bodyparser", "crypto", "axios"]
 }
