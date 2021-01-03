@@ -19,11 +19,10 @@ export async function callback(ctx, next) {
         }
     })
     ctx.assert(response.status === 200, 500, "Post to MailerLite's /subscribers was not OK")
-    ctx.log(response)
 
     // check this subscriber is new
     // this date is in UTC, we're safe
-    const creationDate = parse(response.data.date_created, DATE_FORMAT)
+    const creationDate = parse(response.data.date_created, DATE_FORMAT, new Date())
     const leeway = 30
     ctx.assert(
         differenceInMinutes(creationDate, Date.now()) < leeway,
