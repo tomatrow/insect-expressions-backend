@@ -6,6 +6,7 @@ export const findField = (subscriber, name) =>
 export const LAST_ORDER_TIME_FIELD = "last_order_time"
 export const SIGN_UP_SOURCE_FIELD = "sign_up_source"
 export const IS_READY_FOR_REMINDER_EMAIL_FIELD = "is_ready_for_reminder_email"
+export const INSECT_EXPRESSION_GROUP_ID = 104428943
 
 // converts from `Y-m-d H:i:s` in PHP.date format
 // see https://www.php.net/manual/en/datetime.format.php

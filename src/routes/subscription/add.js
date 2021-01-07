@@ -1,4 +1,4 @@
-import MailerLite, { SIGN_UP_SOURCE_FIELD, DATE_FORMAT } from "../../controllers/MailerLite.js"
+import MailerLite, { SIGN_UP_SOURCE_FIELD, DATE_FORMAT, INSECT_EXPRESSION_GROUP_ID } from "../../controllers/MailerLite.js"
 import { parse, differenceInMinutes } from "date-fns"
 
 export const path = "/add"
@@ -12,7 +12,7 @@ export async function callback(ctx, next) {
     ctx.assert(typeof source === "string", 422, `Expected body.source`)
 
     // add subscriber
-    const response = await MailerLite.post("/subscribers", {
+    const response = await MailerLite.post(`/groups/${INSECT_EXPRESSION_GROUP_ID}/subscribers`, {
         email,
         fields: {
             [SIGN_UP_SOURCE_FIELD]: source
